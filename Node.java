@@ -92,8 +92,15 @@ public class Node<E extends Comparable<E>> {
 		
 		@Override
 		public boolean add(E element, Node<E> parent) {
-			parent = this;
-			parent = new Node<E>(element);
+			//parent = this;
+			int comparison = compare(parent.element, element);
+			if (comparison > 0) {
+				parent.left = new Node<E>(element);
+			}
+			else if (comparison < 0) {
+				parent.right = new Node<E>(element);
+			}
+//			parent = new Node<E>(element);
 			return true;
 		}
 		
