@@ -42,21 +42,38 @@ public class BinarySearchTree<E  extends Comparable<E>> extends AbstractSet<E> {
 		}
 	}
 	
-//	@Override
-//	public String toString() {
-//		Class<?> classBST = getClass().getEnclosingClass();
-//		System.out.println("[");
-//		String className = classBST.getClass().getName();
-//		BinarySearchTreeIterator objectIterator = new BinarySearchTreeIterator();
-//		
-//		return className;
-//	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		Iterator<E> treeIterator = this.iterator();
+		if (!treeIterator.hasNext()) {
+			builder.append("[ ]");
+		}
+		else {
+			builder.append("[");
+			while (treeIterator.hasNext()) {
+				E nextItem = treeIterator.next();
+				builder.append(nextItem.toString());
+				if (treeIterator.hasNext()) {
+					builder.append(", ");
+				}
+			}
+			builder.append("]");
+		}
+		return builder.toString();
+	}
 	
-
-//	public E[] toArray() {
-//		
-//		
-//	}
+	@Override
+	public Object[] toArray() {
+		Object[] container = new Object[this.size()];
+		Iterator<E> treeIterator = this.iterator();
+		int count = 0;
+		while (treeIterator.hasNext()) {
+			E nextItem = treeIterator.next();
+			container[count++] = nextItem;
+		}
+		return container;
+	}
 	
 	@Override
 	public boolean isEmpty() {
@@ -105,7 +122,7 @@ public class BinarySearchTree<E  extends Comparable<E>> extends AbstractSet<E> {
 		@Override
 		public TreeNode<E> next() {
 			if (!this.hasNext()) {
-				throw new NoSuchElementException("No more items in the tree");
+				throw new NoSuchElementException();
 			}
 			TreeNode<E> nextNode = frontier.pop();
 			if (nextNode.getRight() != null) {
