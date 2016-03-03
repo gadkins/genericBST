@@ -5,13 +5,17 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Stack;
+import java.util.ArrayList;
 
-public class BinarySearchTree<E extends Comparable<E>> extends AbstractSet<E> {
-	private Node<E> root;
+public class BinarySearchTree<E  extends Comparable<E>> extends AbstractSet<E> {
+	private HeadNode head;
+	private TreeNode<E> root;
 	private Comparator<E> comparator;
 	private int size = 0;
 	
 	public BinarySearchTree() {
+		this.head = new HeadNode();
+		this.root = null;
 		this.comparator = null;
 	}
 	
@@ -38,45 +42,57 @@ public class BinarySearchTree<E extends Comparable<E>> extends AbstractSet<E> {
 		}
 	}
 	
+//	@Override
+//	public String toString() {
+//		Class<?> classBST = getClass().getEnclosingClass();
+//		System.out.println("[");
+//		String className = classBST.getClass().getName();
+//		BinarySearchTreeIterator objectIterator = new BinarySearchTreeIterator();
+//		
+//		return className;
+//	}
+	
+
+//	public E[] toArray() {
+//		
+//		
+//	}
+	
+	@Override
 	public boolean isEmpty() {
 		return this.root == null;
 	}
 	
+	@Override
 	/*
-	 * Add a new element into the tree
+	 * Add a new element into a tree
 	 * 
 	 * @param	element		The element to be inserted into the tree
 	 * @return				Returns true if insertion was successful, else returns false
 	 */
 	public boolean add(E element) {
-		if (this.isEmpty()) {
-			root = new Node<E>(element);
-			this.size++;
-			return true;
-		}
-		boolean result = root.add(element, root);
+		boolean result = head.add(element, root);
 		if (result) {
 			this.size++; 
 		}
 		return result;
 	}
 	
+	/*
+	 * Check if a tree contains element
+	 * 
+	 * @param	element		The element in question
+	 * @return				Returns true if tree contains element, else returns false
+	 */
 	public boolean contains(E element) {
-		if (this.isEmpty()) {
-			return false;
-		}
-		return root.contains(element, root);
+		return head.contains(element, root);
 	}
-	
-//	public String toString() {
-//		// StringBuilder
-//	}
 	
 	
 	interface TreeIterator<E> extends Iterator<E> { }
 
-	private class BinarySearchTreeIterator implements TreeIterator<Node<E>> {
-		private Stack<Node <E>> frontier = new Stack<Node<E>>();
+	private class BinarySearchTreeIterator implements TreeIterator<TreeNode<E>> {
+		private Stack<TreeNode <E>> frontier = new Stack<TreeNode<E>>();
 		private BinarySearchTreeIterator() {
 			if (root != null) {
 				frontier.push(root);
@@ -87,11 +103,11 @@ public class BinarySearchTree<E extends Comparable<E>> extends AbstractSet<E> {
 			return !frontier.empty();
 		}
 		@Override
-		public Node<E> next() {
+		public TreeNode<E> next() {
 			if (!this.hasNext()) {
 				throw new NoSuchElementException("No more items in the tree");
 			}
-			Node<E> nextNode = frontier.pop();
+			TreeNode<E> nextNode = frontier.pop();
 			if (nextNode.getRight() != null) {
 				frontier.push(nextNode.getRight());
 			}
@@ -106,9 +122,33 @@ public class BinarySearchTree<E extends Comparable<E>> extends AbstractSet<E> {
 		}
 	}
 	
-//	private final class HeadNode {
-//		private HeadNode() {
-//			BinarySearchTree.this.root = 
-//		}
-//	}
+	private final class HeadNode extends TreeNode<E> implements Node<E>{
+		
+		public HeadNode() { }
+		@Override
+		public boolean isNull() {
+			return true;
+		}
+
+		@Override
+		public boolean isLeaf() {
+			return false;
+		}
+
+		@Override
+		public boolean add(E element, TreeNode<E> root) {
+			if (BinarySearchTree.this.isEmpty()) {
+				BinarySearchTree.this.root = new TreeNode<E>(element);
+				return true;
+			}
+			else {
+				return root.add(element, root);
+			}
+		}
+
+		@Override
+		public boolean contains(E element, TreeNode<E> root) {
+			return root.contains(element, root);
+		}
+	}
 }
