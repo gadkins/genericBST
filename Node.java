@@ -2,7 +2,7 @@ package genericBST;
 
 import java.util.Comparator;
 
-public class Node<E extends Comparable<E>> {
+public class Node<E extends Comparable<E>> implements INode<E>{
 
 	protected E element;
 	protected Node<E> left;
@@ -32,22 +32,17 @@ public class Node<E extends Comparable<E>> {
 		}
 	}
 	
-	public Node<E> getLeft() {
-		return this.left;
-	}
-	
-	public Node<E> getRight() {
-		return this.right;
-	}
-	
+	@Override
 	public boolean isNull() {
 		return false;
 	}
 	
+	@Override
 	public boolean isLeaf() {
 		return this.left.isNull() && this.right.isNull();
 	}
 	
+	@Override
 	public boolean add(E element, Node<E> parent) {
 		int comparison = compare(this.element, element);
 		if (comparison > 0) {
@@ -60,7 +55,8 @@ public class Node<E extends Comparable<E>> {
 			return false;
 		}
 	}
-	
+
+	@Override
 	public boolean contains(E element, Node<E> parent) {
 		int comparison = compare(this.element, element);
 		if (comparison > 0) {
@@ -72,6 +68,14 @@ public class Node<E extends Comparable<E>> {
 		else {
 			return true;
 		}
+	}
+	
+	public Node<E> getLeft() {
+		return this.left;
+	}
+	
+	public Node<E> getRight() {
+		return this.right;
 	}
 	
 	private static final class NullNode<E extends Comparable<E>> extends Node<E> 	{
