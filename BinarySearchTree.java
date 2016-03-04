@@ -77,7 +77,7 @@ public class BinarySearchTree<E  extends Comparable<E>> extends AbstractSet<E> {
 	 * @return				Returns true if insertion was successful, else returns false
 	 */
 	public boolean add(E element) {
-		boolean result = head.add(element, root, comparator);
+		boolean result = head.add(element, root, this.comparator);
 		if (result) {
 			this.size++; 
 		}
@@ -91,12 +91,13 @@ public class BinarySearchTree<E  extends Comparable<E>> extends AbstractSet<E> {
 	 * @return				Returns true if tree contains element, else returns false
 	 */
 	public boolean contains(E element) {
-		return head.contains(element, root, comparator);
+		return head.contains(element, root, this.comparator);
 	}
 	
 	private final class HeadNode extends TreeNode<E> implements Node<E>{
 		
 		public HeadNode() { }
+		
 		@Override
 		public boolean isNull() {
 			return true;
@@ -117,13 +118,18 @@ public class BinarySearchTree<E  extends Comparable<E>> extends AbstractSet<E> {
 				return root.add(element, root, comp);
 			}
 		}
-
+		
 		@Override
 		public boolean contains(E element, TreeNode<E> root, Comparator<E> comp) {
-			return root.contains(element, root, comp);
+			if (BinarySearchTree.this.isEmpty()) {
+				return false;
+			}
+			else {
+				return root.contains(element, root, comp);
+			}
 		}
 	}
-
+	
 	private class BinarySearchTreeIterator implements Iterator<E> {
 		private Stack<TreeNode<E>> frontier = new Stack<TreeNode<E>>();
 		private BinarySearchTreeIterator() {

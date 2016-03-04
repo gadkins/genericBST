@@ -10,13 +10,13 @@ public class OrderByLengthTest {
 	public void testCompare() {
 		OrderByLength lengthOrder = new OrderByLength();
 		BinarySearchTree<String> tree = new BinarySearchTree<String>(lengthOrder);
-		assertTrue(tree.add("G"));
-		assertTrue(tree.add("camp"));
-		assertTrue(tree.add("rat"));
-		assertTrue(tree.add("Hahahaha"));
-		assertTrue(tree.add("hello"));
+		assertTrue(tree.add("cat"));
+		assertTrue(tree.add("crazy"));
+		assertFalse(tree.add("I'm"));
+		assertTrue(tree.add("like"));
+		assertTrue(tree.add("a"));
 		String s = tree.toString();
-		assertEquals("[Hahahaha, hello, camp, rat, G]", s);
+		assertEquals("[cat, a, crazy, like]", s);
 	}
 
 }

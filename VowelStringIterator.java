@@ -1,45 +1,35 @@
 package genericBST;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public class VowelStringIterator implements Iterator<String>{
 	
-	public List<TreeNode<String>> frontier = new ArrayList<>();
+	Iterator<String> iterator;
 	
 	public VowelStringIterator(Iterator<String> baseIterator) {
-		TreeNode<String> next;
-		while (baseIterator.hasNext()) {
-			next = new TreeNode<String>(baseIterator.next());
-			for (Vowels v: Vowels.values()) {
-				if(v.name().toString().equals(String.valueOf(next.element.charAt(0)))) {
-					frontier.add(next);
-				}
-			}
-		}
+		this.iterator = baseIterator;
 	}
 
 	@Override
 	public boolean hasNext() {
-		return !frontier.isEmpty();
+		return iterator.hasNext();
 	}
 
 	@Override
 	public String next() {
-		if (!this.hasNext()) {
+		if (!iterator.hasNext()) {
 			throw new NoSuchElementException();
 		}
-		TreeNode<String> next = frontier.remove(0);
-		if (!next.right.isNull()) {
-			frontier.add(next.right);
+		while (iterator.hasNext()) {
+			String next = iterator.next();
+			for (Vowels v: Vowels.values()) {
+				if(v.name().toString().equals(String.valueOf(next.charAt(0)))) {
+					return next;
+				}
+			}
 		}
-		if (!next.left.isNull()) {
-			frontier.add(next.left);
-		}
-		return next.element;
+		throw new NoSuchElementException();
 	}
-	
 	private enum Vowels {a, e, i, o, u, A, E, I, O, U};
 }
