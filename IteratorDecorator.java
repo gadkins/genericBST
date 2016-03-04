@@ -1,20 +1,12 @@
 package genericBST;
 
-import java.util.Iterator;
+import java.util.Comparator;
 
-public abstract class IteratorDecorator<E> implements Iterator<E> {
+public interface IteratorDecorator<E> extends Comparator<E> {
+	
+	public boolean hasNext();
 
-	protected Iterator<E> decoratedIterator;
+	public E next();
 	
-	public IteratorDecorator(Iterator<E> decoratedIterator) {
-		this.decoratedIterator = decoratedIterator;
-	}
-	
-	
-	// Abstract here may not be a good idea. Consider writing definitions and allowing subclasses to inherit
-	public abstract boolean hasNext();
-
-	public abstract E next();
-	
-	public abstract void remove();
+	public void remove();
 }

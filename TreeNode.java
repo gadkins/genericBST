@@ -43,13 +43,14 @@ public class TreeNode<E extends Comparable<E>> implements Node<E>{
 	}
 	
 	@Override
-	public boolean add(E element, TreeNode<E> parent) {
+	public boolean add(E element, TreeNode<E> parent, Comparator<E> comp) {
+		this.comparator = comp;
 		int comparison = compare(this.element, element);
 		if (comparison > 0) {
-			return this.left.add(element, this);
+			return this.left.add(element, this, comp);
 		}
 		else if (comparison < 0) {
-			return this.right.add(element, this);
+			return this.right.add(element, this, comp);
 		}
 		else {
 			return false;
@@ -57,58 +58,17 @@ public class TreeNode<E extends Comparable<E>> implements Node<E>{
 	}
 
 	@Override
-	public boolean contains(E element, TreeNode<E> parent) {
+	public boolean contains(E element, TreeNode<E> parent, Comparator<E> comp) {
+		this.comparator = comp;
 		int comparison = compare(this.element, element);
 		if (comparison > 0) {
-			return this.left.contains(element, this);
+			return this.left.contains(element, this, comp);
 		}
 		else if (comparison < 0) {
-			return this.right.contains(element, this);
+			return this.right.contains(element, this, comp);
 		}
 		else {
 			return true;
 		}
 	}
-	
-	public TreeNode<E> getLeft() {
-		return this.left;
-	}
-	
-	public TreeNode<E> getRight() {
-		return this.right;
-	}
-	
-//	private static final class NullNode<E extends Comparable<E>> extends Node<E> 	{
-//
-//		private NullNode() {
-//			super(null, null, null);
-//		}
-//		
-//		@Override
-//		public boolean isNull() {
-//			return true;
-//		}
-//		
-//		@Override
-//		public boolean isLeaf() {
-//			return false;
-//		}
-//		
-//		@Override
-//		public boolean add(E element, Node<E> parent) {
-//			int comparison = compare(parent.element, element);
-//			if (comparison > 0) {
-//				parent.left = new Node<E>(element);
-//			}
-//			else if (comparison < 0) {
-//				parent.right = new Node<E>(element);
-//			}
-//			return true;
-//		}
-//		
-//		@Override
-//		public boolean contains(E element, Node<E> parent) {
-//			return false;
-//		}
-//	 }
 }
