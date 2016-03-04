@@ -6,7 +6,7 @@ public final class NullNode<E extends Comparable<E>> extends TreeNode<E> impleme
 	
 		protected Comparator<E> comparator;
 	
-		public NullNode() {
+		protected NullNode() {
 			super(null, null, null);
 		}
 		

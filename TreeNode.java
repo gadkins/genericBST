@@ -17,7 +17,7 @@ public class TreeNode<E extends Comparable<E>> implements Node<E>{
 		this(element, new NullNode<E>(), new NullNode<E>());
 	}
 	
-	public TreeNode(E element, TreeNode<E> left, TreeNode<E> right) {
+	protected TreeNode(E element, TreeNode<E> left, TreeNode<E> right) {
 		this.element = element;
 		this.left = left;
 		this.right = right;
